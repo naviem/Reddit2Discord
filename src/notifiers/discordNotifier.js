@@ -32,7 +32,7 @@ class DiscordNotifier {
             .setTimestamp(post.created_utc * 1000);
 
         // Truncate description if too long
-        const maxDesc = 4096;
+        const maxDesc = 4000;
         function truncateDesc(desc) {
             if (!desc) return 'No content';
             if (desc.length > maxDesc) {

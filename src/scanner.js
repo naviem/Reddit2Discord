@@ -48,9 +48,13 @@ class Scanner {
                 const notifier = this.notifiers.get(subreddit.name);
                 if (notifier) {
                     for (const post of posts) {
-                        console.log(`[${getTimeString()}] Sending notification for post "${post.title}" to webhook: ${subreddit.webhookUrl}`);
-                        await notifier.sendPost(post);
-                        await new Promise(resolve => setTimeout(resolve, this.config.settings.notificationDelay));
+                        try {
+                            console.log(`[${getTimeString()}] Sending notification for post "${post.title}" to webhook: ${subreddit.webhookUrl}`);
+                            await notifier.sendPost(post);
+                            await new Promise(resolve => setTimeout(resolve, this.config.settings.notificationDelay));
+                        } catch (e) {
+                            console.error(`[${getTimeString()}] Failed to send post "${post.title}". Error: ${e.message}`);
+                        }
                     }
                 }
                 // Update last checked timestamp
@@ -89,9 +93,13 @@ class Scanner {
                     const notifier = this.notifiers.get(subreddit.name);
                     if (notifier) {
                         for (const post of newPosts) {
-                            console.log(`[${getTimeString()}] Sending notification for post "${post.title}" to webhook: ${subreddit.webhookUrl}`);
-                            await notifier.sendPost(post);
-                            await new Promise(resolve => setTimeout(resolve, this.config.settings.notificationDelay));
+                            try {
+                                console.log(`[${getTimeString()}] Sending notification for post "${post.title}" to webhook: ${subreddit.webhookUrl}`);
+                                await notifier.sendPost(post);
+                                await new Promise(resolve => setTimeout(resolve, this.config.settings.notificationDelay));
+                            } catch (e) {
+                                console.error(`[${getTimeString()}] Failed to send post "${post.title}". Error: ${e.message}`);
+                            }
                         }
                     }
                     // Update last checked timestamp
